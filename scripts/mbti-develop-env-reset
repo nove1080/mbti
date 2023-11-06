@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd ../resources/demo-develop-environment
+cd ../resources/mbti-develop-environment
 docker-compose down
 docker-compose up -d
 sleep 10

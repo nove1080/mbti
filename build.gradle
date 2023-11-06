@@ -1,7 +1,7 @@
 buildscript {
     ext {
         // plugins
-        projectName = 'demo'
+        projectName = 'mbti'
         projectVersion = '1.0.1'
         springBootVersion = '2.7.5'
         dependencyManagementVersion = '1.0.15.RELEASE'

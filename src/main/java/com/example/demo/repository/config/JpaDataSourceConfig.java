@@ -34,7 +34,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class JpaDataSourceConfig {
 
 	private static final String MODULE_NAME = "repository";
-	private static final String SERVICE_NAME = "demo";
+	private static final String SERVICE_NAME = "mbti";
 	public static final String MODULE_BASE_PACKAGE = BASE_PACKAGE + "." + MODULE_NAME;
 	private static final String REPOSITORY_DRIVER = "mysql";
 

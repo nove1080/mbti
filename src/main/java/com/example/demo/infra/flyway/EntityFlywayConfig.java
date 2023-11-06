@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Profile;
 
 @Configuration
 public class EntityFlywayConfig {
-	private static final String SERVICE_NAME = "demo";
+	private static final String SERVICE_NAME = "mbti";
 	private static final String MODULE_NAME = "infra";
 	public static final String MODULE_BASE_PACKAGE = BASE_PACKAGE + "." + MODULE_NAME;
 

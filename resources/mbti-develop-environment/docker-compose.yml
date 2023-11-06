@@ -1,7 +1,7 @@
 version: '3.1'
 services:
-  demo-mysql:
-    container_name: demo-mysql8
+  mbti-mysql:
+    container_name: mbti-mysql8
     image: mysql/mysql-server:8.0.27
     environment:
       - MYSQL_ROOT_PASSWORD=root
@@ -13,13 +13,13 @@ services:
     volumes:
       - ./mysql-init.d:/docker-entrypoint-initdb.d
 
-  demo-adminer: # mysql web admin
-    container_name: demo-adminer
+  mbti-adminer: # mysql web admin
+    container_name: mbti-adminer
     image: adminer:4
     ports:
       - "18080:8080"
     environment:
-      - ADMINER_DEFAULT_SERVER=demo-mysql8
+      - ADMINER_DEFAULT_SERVER=mbti-mysql8
       - ADMINER_DESIGN=nette
       - ADMINER_PLUGINS=tables-filter tinymce
 

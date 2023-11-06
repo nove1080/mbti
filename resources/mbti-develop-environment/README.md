@@ -17,12 +17,12 @@ docker-compose stop
 * 초기화 파일 수정시에는 `docker-compose down` 으로 완전 초기화를 해야한다.
 
 ## mysql client
-* 서비스용 계정 : `demo-local`
-* 서비스용 비밀번호 : `demo-local`
+* 서비스용 계정 : `mabti-local`
+* 서비스용 비밀번호 : `mabti-local`
 * [docker localhost adminer](http://localhost:18080) 로 접속하면 [adminer](https://www.adminer.org) Web DB Client 로 DB조회 조작 가능.
 
 ```shell
-docker exec -it demo-mysql8 mysql -uroot -p
+docker exec -it mabti-mysql8 mysql -uroot -p
 # 비밀번호 root 로 접속
 
 mysql> show databases;
