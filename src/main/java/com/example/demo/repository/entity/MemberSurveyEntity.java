@@ -14,8 +14,9 @@ public class MemberSurveyEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "member_survey_id")
-	private long id;
+	private Long id;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	private MemberEntity member;
+	private double version;
+
+	private String answer;
 }
