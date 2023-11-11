@@ -74,7 +74,7 @@ public class SecurityConfig {
 						"/error",
 						"/beta/**")
 				.permitAll()
-				.antMatchers(HttpMethod.POST, "/api/v1/users", "/api/v1/members/tokens", "/beta/*")
+				.antMatchers(HttpMethod.POST, "/api/v1/members", "/api/v1/members/tokens", "/beta/*")
 				.permitAll()
 				.antMatchers("/api/v1/**")
 				.authenticated()
