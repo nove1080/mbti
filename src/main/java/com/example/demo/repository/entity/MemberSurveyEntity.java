@@ -16,6 +16,9 @@ public class MemberSurveyEntity {
 	@Column(name = "member_survey_id")
 	private Long id;
 
+	@Column(name="member_id")
+	private Long memberId;
+
 	private double version;
 
 	private String answer;

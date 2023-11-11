@@ -24,10 +24,6 @@ public class MemberEntity {
 
 	private String password;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member_survey_id")
-	private MemberSurveyEntity memberSurvey;
-
 	@OneToMany(mappedBy = "member")
 	private List<ChatRoomListEntity> chatRoomLists;
 
