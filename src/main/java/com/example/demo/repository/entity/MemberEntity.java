@@ -38,5 +38,4 @@ public class MemberEntity {
 	public void delete() {
 		this.deleted = true;
 	}
-
 }
