@@ -3,7 +3,7 @@ package com.example.demo.repository.entity;
 import javax.persistence.*;
 import lombok.*;
 
-@Entity
+@Entity(name = "member_survey_entity")
 @Getter
 @ToString
 @AllArgsConstructor
