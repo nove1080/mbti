@@ -1,13 +1,13 @@
 package com.example.demo.repository.entity;
 
 import com.example.demo.repository.entity.constant.ChatRoomStatus;
-import lombok.*;
-
-import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
+import javax.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
-@Entity
+@Entity(name = "chat_room_entity")
 @Getter
 @ToString
 @AllArgsConstructor
@@ -15,26 +15,31 @@ import java.util.List;
 @Builder(toBuilder = true)
 public class ChatRoomEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "chat_room_id")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "chat_room_id")
+	private Long id;
 
-    @OneToMany
-    @JoinColumn(name = "chat_survey_id")
-    private List<ChatSurveyEntity> chatSurvey;
+	@OneToMany
+	@JoinColumn(name = "chat_survey_id")
+	private List<ChatSurveyEntity> chatSurvey;
 
-    private String title;
+	private String title;
 
-    private String password;
+	private String password;
 
-    private ChatRoomStatus status;
+	@Enumerated(EnumType.STRING)
+	@ColumnDefault("'성향 조사'")
+	private ChatRoomStatus status = ChatRoomStatus.SURVEY;
 
-    private String spot;
+	private String spot;
 
-    private Integer headcount;
+	private Integer headcount;
 
 	private Date start;
 
 	private Date end;
+
+	@OneToMany(mappedBy = "chatRoom")
+	private List<ChatRoomListEntity> chatRoomLists;
 }

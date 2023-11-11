@@ -1,9 +1,10 @@
 package com.example.demo.repository.entity;
 
+import java.util.List;
 import javax.persistence.*;
 import lombok.*;
 
-@Entity
+@Entity(name = "member_entity")
 @Getter
 @ToString
 @AllArgsConstructor
@@ -26,6 +27,9 @@ public class MemberEntity {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_survey_id")
 	private MemberSurveyEntity memberSurvey;
+
+	@OneToMany(mappedBy = "member")
+	private List<ChatRoomListEntity> chatRoomLists;
 
 	public boolean isPassword(String target) {
 		return password.equals(target);
