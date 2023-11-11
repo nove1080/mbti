@@ -1,7 +1,8 @@
 package com.example.demo.repository.entity;
 
-import javax.persistence.*;
 import lombok.*;
+
+import javax.persistence.*;
 
 @Entity
 @Getter
