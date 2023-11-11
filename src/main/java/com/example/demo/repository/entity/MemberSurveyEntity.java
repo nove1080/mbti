@@ -16,8 +16,9 @@ public class MemberSurveyEntity {
 	@Column(name = "member_survey_id")
 	private Long id;
 
-	@Column(name="member_id")
-	private Long memberId;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "member_id")
+	private MemberEntity member;
 
 	private double version;
 
