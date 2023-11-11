@@ -1,7 +1,6 @@
 package com.example.demo.security.context;
 
 import com.example.demo.security.authentication.token.TokenUserDetails;
-
 import java.util.List;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
