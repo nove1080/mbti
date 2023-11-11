@@ -29,7 +29,8 @@ public class ChatRoomEntity {
 	private String password;
 
 	@Enumerated(EnumType.STRING)
-	@ColumnDefault("'성향 조사'")
+	@Builder.Default
+	@ColumnDefault("'SURVEY'")
 	private ChatRoomStatus status = ChatRoomStatus.SURVEY;
 
 	private String spot;
