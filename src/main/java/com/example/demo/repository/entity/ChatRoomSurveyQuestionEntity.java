@@ -19,4 +19,6 @@ public class ChatRoomSurveyQuestionEntity {
 	private double version;
 
 	private String question;
+
+	private String selection;
 }
