@@ -10,4 +10,6 @@ public interface MemberSurveyQuestionRepository
 		extends JpaRepository<MemberSurveyQuestionEntity, Long> {
 
 	List<MemberSurveyQuestionEntity> findAllByVersion(double version);
+
+	MemberSurveyQuestionEntity findByVersion(double version);
 }
