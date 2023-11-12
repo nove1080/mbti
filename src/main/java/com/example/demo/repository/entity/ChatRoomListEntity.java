@@ -3,7 +3,7 @@ package com.example.demo.repository.entity;
 import javax.persistence.*;
 import lombok.*;
 
-@Entity
+@Entity(name = "chat_room_list_entity")
 @Getter
 @ToString
 @AllArgsConstructor
@@ -14,7 +14,7 @@ public class ChatRoomListEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "chat_room_list_id")
-	private long id;
+	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "chat_room_id")

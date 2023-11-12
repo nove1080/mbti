@@ -3,7 +3,7 @@ package com.example.demo.repository.entity;
 import javax.persistence.*;
 import lombok.*;
 
-@Entity
+@Entity(name = "chat_survey_entity")
 @Getter
 @ToString
 @AllArgsConstructor
@@ -14,5 +14,9 @@ public class ChatSurveyEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "chat_survey_id")
-	private long id;
+	private Long id;
+
+	private double version;
+
+	private String answer;
 }
