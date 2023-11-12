@@ -1,9 +1,10 @@
 package com.example.demo.repository.entity;
 
-import javax.persistence.*;
 import lombok.*;
 
-@Entity(name = "chat_survey_entity")
+import javax.persistence.*;
+
+@Entity
 @Getter
 @ToString
 @AllArgsConstructor

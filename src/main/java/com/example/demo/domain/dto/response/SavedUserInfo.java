@@ -10,8 +10,7 @@ import lombok.*;
 @Builder(toBuilder = true)
 public class SavedUserInfo {
 
-
-    private Long id;
-    private AuthToken token;
-
+	private Long id;
+	private AuthToken token;
+	private Boolean isRegistered;
 }
