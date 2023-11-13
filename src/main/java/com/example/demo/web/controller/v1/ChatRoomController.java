@@ -49,6 +49,13 @@ public class ChatRoomController {
 		return ApiResponseGenerator.success(res, HttpStatus.OK);
 	}
 
+	@GetMapping("/survey/{version}")
+	public ApiResponse<ApiResponse.SuccessBody<ChatSurveyQuestionResponse>> loadSurvey(
+			@PathVariable double version) {
+		ChatSurveyQuestionResponse res = readChatSurveyQuestionService.execute(version);
+		return ApiResponseGenerator.success(res, HttpStatus.OK);
+	}
+
 	private Long findMemberByToken(HttpServletRequest request) {
 		String authentication = request.getHeader("Authentication");
 		String substring = authentication.substring(7, authentication.length());
