@@ -31,4 +31,5 @@ INSERT INTO mbti.chat_room_survey_question_entity (version, question, selection)
 INSERT INTO mbti.chat_room_survey_question_entity (version, question, selection) VALUES (1, "Question9", "ans91,ans92,ans93,ans94,ans95");
 INSERT INTO mbti.chat_room_survey_question_entity (version, question, selection) VALUES (1, "Question10", "ans101,ans102,ans103,ans104,ans105");
 
-
+INSERT INTO mbti.history_entity (history, create_date) VALUES ("성산일출봉,한라산","2020-09-01");
+INSERT INTO mbti.history_entity (history, create_date) VALUES ("성산일출봉2,한라산2","2020-09-02");
