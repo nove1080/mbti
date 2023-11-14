@@ -1,7 +1,9 @@
 package com.example.demo.repository.entity;
 
+import com.example.demo.repository.entity.constant.ChatRoomStatus;
 import javax.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -24,5 +26,12 @@ public class ChatRoomListEntity {
 	@JoinColumn(name = "member_id")
 	private MemberEntity member;
 
-	// TODO: 양방향 연관관계 메서드 추가
+	@Enumerated(EnumType.STRING)
+	@Builder.Default
+	@ColumnDefault("'SURVEY'")
+	private ChatRoomStatus chatStatus = ChatRoomStatus.SURVEY;
+
+	public void changeChatStatus(ChatRoomStatus chatStatus) {
+		this.chatStatus = chatStatus;
+	}
 }
