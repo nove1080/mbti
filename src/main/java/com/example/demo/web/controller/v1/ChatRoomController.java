@@ -1,13 +1,12 @@
 package com.example.demo.web.controller.v1;
 
-import com.example.demo.domain.usecase.chatroom.CreateChatRoomListService;
-import com.example.demo.domain.usecase.chatroom.CreateChatRoomService;
-import com.example.demo.domain.usecase.chatroom.ReadChatRoomService;
-import com.example.demo.domain.usecase.chatroom.ReadChatSurveyQuestionService;
+import com.example.demo.domain.usecase.chatroom.*;
+import com.example.demo.repository.entity.constant.ChatRoomStatus;
 import com.example.demo.security.authentication.token.TokenUserDetailsService;
 import com.example.demo.support.ApiResponse;
 import com.example.demo.support.ApiResponseGenerator;
 import com.example.demo.web.dto.request.CreateChatRoomRequest;
+import com.example.demo.web.dto.request.CreateChatSurveyResultRequest;
 import com.example.demo.web.dto.response.ChatRoomResponse;
 import com.example.demo.web.dto.response.ChatSurveyQuestionResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +27,8 @@ public class ChatRoomController {
 	private final ReadChatRoomService readChatRoomService;
 	private final ReadChatSurveyQuestionService readChatSurveyQuestionService;
 	private final CreateChatRoomListService createChatRoomListService;
+	private final CreateChatSurveyResultService createChatSurveyResultService;
+	private final UpdateChatRoomStatusService updateChatRoomStatusService;
 
 	private final TokenUserDetailsService tokenUserDetailsService;
 
@@ -54,6 +55,23 @@ public class ChatRoomController {
 			@PathVariable double version) {
 		ChatSurveyQuestionResponse res = readChatSurveyQuestionService.execute(version);
 		return ApiResponseGenerator.success(res, HttpStatus.OK);
+	}
+
+	@PostMapping("/survey")
+	public String submitSurvey(
+			@RequestBody CreateChatSurveyResultRequest requestData, HttpServletRequest request) {
+		createChatSurveyResultService.execute(requestData);
+		changeChatroomStatus(requestData, request);
+		return "redirect:/api/v1/chatrooms";
+	}
+
+	private void changeChatroomStatus(
+			CreateChatSurveyResultRequest requestData, HttpServletRequest request) {
+		updateChatRoomStatusService.updateChatStatus(
+				findMemberByToken(request), requestData.getChatRoomId(), ChatRoomStatus.WAITING);
+		if (updateChatRoomStatusService.checkComplete(requestData.getChatRoomId())) {
+			updateChatRoomStatusService.updateAllComplete(requestData.getChatRoomId());
+		}
 	}
 
 	private Long findMemberByToken(HttpServletRequest request) {
