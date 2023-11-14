@@ -57,6 +57,7 @@ public class ChatRoomController {
 		return ApiResponseGenerator.success(res, HttpStatus.OK);
 	}
 
+	//TODO: @RequestBody 제거
 	@PostMapping("/survey")
 	public String submitSurvey(
 			@RequestBody CreateChatSurveyResultRequest requestData, HttpServletRequest request) {
@@ -75,8 +76,8 @@ public class ChatRoomController {
 	}
 
 	private Long findMemberByToken(HttpServletRequest request) {
-		String authentication = request.getHeader("Authentication");
-		String substring = authentication.substring(7, authentication.length());
+		String authorization = request.getHeader("Authorization");
+		String substring = authorization.substring(7, authorization.length());
 		UserDetails userDetails = tokenUserDetailsService.loadUserByUsername(substring);
 		Long memberId = Long.parseLong(userDetails.getUsername());
 		return memberId;
