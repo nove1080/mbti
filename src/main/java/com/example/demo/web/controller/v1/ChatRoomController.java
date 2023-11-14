@@ -1,6 +1,7 @@
 package com.example.demo.web.controller.v1;
 
 import com.example.demo.domain.usecase.chatroom.*;
+import com.example.demo.repository.entity.constant.ChatRoomStatus;
 import com.example.demo.security.authentication.token.TokenUserDetailsService;
 import com.example.demo.support.ApiResponse;
 import com.example.demo.support.ApiResponseGenerator;
@@ -27,6 +28,7 @@ public class ChatRoomController {
 	private final ReadChatSurveyQuestionService readChatSurveyQuestionService;
 	private final CreateChatRoomListService createChatRoomListService;
 	private final CreateChatSurveyResultService createChatSurveyResultService;
+	private final UpdateChatRoomStatusService updateChatRoomStatusService;
 
 	private final TokenUserDetailsService tokenUserDetailsService;
 
@@ -56,9 +58,20 @@ public class ChatRoomController {
 	}
 
 	@PostMapping("/survey")
-	public String submitSurvey(CreateChatSurveyResultRequest request) {
-		createChatSurveyResultService.save(request);
+	public String submitSurvey(
+			@RequestBody CreateChatSurveyResultRequest requestData, HttpServletRequest request) {
+		createChatSurveyResultService.execute(requestData);
+		changeChatroomStatus(requestData, request);
 		return "redirect:/api/v1/chatrooms";
+	}
+
+	private void changeChatroomStatus(
+			CreateChatSurveyResultRequest requestData, HttpServletRequest request) {
+		updateChatRoomStatusService.updateChatStatus(
+				findMemberByToken(request), requestData.getChatRoomId(), ChatRoomStatus.WAITING);
+		if (updateChatRoomStatusService.checkComplete(requestData.getChatRoomId())) {
+			updateChatRoomStatusService.updateAllComplete(requestData.getChatRoomId());
+		}
 	}
 
 	private Long findMemberByToken(HttpServletRequest request) {
