@@ -18,7 +18,7 @@ public class ReadChatSurveyQuestionService {
 	private final ChatSurveyQuestionRepository chatSurveyQuestionRepository;
 
 	public ChatSurveyQuestionResponse execute(double version) {
-		Map<String, String> data = new HashMap<>();
+		Map<String, String> survey = new HashMap<>();
 
 		List<ChatRoomSurveyQuestionEntity> items =
 				chatSurveyQuestionRepository.findAllByVersion(version);
@@ -26,9 +26,9 @@ public class ReadChatSurveyQuestionService {
 			String question = item.getQuestion();
 			String selection = item.getSelection();
 
-			data.put(question, selection);
+			survey.put(question, selection);
 		}
 
-		return ChatSurveyQuestionResponse.builder().version(version).data(data).build();
+		return ChatSurveyQuestionResponse.builder().version(version).survey(survey).build();
 	}
 }
