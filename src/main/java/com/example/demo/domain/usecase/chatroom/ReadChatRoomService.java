@@ -29,7 +29,7 @@ public class ReadChatRoomService {
 
 		for (ChatRoomListEntity chatRoomListEntity : chatRoomList) {
 			ChatRoomEntity chatRoom = chatRoomListEntity.getChatRoom();
-			chatRooms.put(chatRoom.getId(), chatRoom.getStatus());
+			chatRooms.put(chatRoom.getId(), chatRoomListEntity.getChatStatus());
 		}
 
 		return ChatRoomResponse.builder().chatRooms(chatRooms).build();

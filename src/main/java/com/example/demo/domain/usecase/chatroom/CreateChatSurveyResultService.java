@@ -15,8 +15,7 @@ public class CreateChatSurveyResultService {
 	private final ChatSurveyRepository chatSurveyRepository;
 
 	@Transactional
-	public Long save(CreateChatSurveyResultRequest request) {
-
+	public Long execute(CreateChatSurveyResultRequest request) {
 		return chatSurveyRepository
 				.save(
 						ChatSurveyEntity.builder()
