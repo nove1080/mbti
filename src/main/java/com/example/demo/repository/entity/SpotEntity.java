@@ -19,8 +19,12 @@ public class SpotEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_room_id")
-    private ChatRoomEntity chatroom;
+    private ChatRoomEntity chatRoom;
 
     private String spot;
+
+    public void changeSpot(String newSpotName) {
+        this.spot = newSpotName;
+    }
 
 }
