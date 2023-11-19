@@ -5,7 +5,7 @@ import javax.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
-@Entity
+@Entity(name = "chat_room_list_entity")
 @Getter
 @ToString
 @AllArgsConstructor
