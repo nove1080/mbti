@@ -1,7 +1,8 @@
 package com.example.demo.repository.entity;
 
-import javax.persistence.*;
 import lombok.*;
+
+import javax.persistence.*;
 
 @Entity(name = "spot_entity")
 @Getter
@@ -11,14 +12,19 @@ import lombok.*;
 @Builder(toBuilder = true)
 public class SpotEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "spot_id")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "spot_id")
+    private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "chat_room_id")
-	private ChatRoomEntity chatRoom;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chat_room_id")
+    private ChatRoomEntity chatRoom;
 
-	private String spot;
+    private String spot;
+
+    public void changeSpot(String newSpotName) {
+        this.spot = newSpotName;
+    }
+
 }

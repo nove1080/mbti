@@ -11,36 +11,43 @@ import lombok.*;
 @Builder(toBuilder = true)
 public class VotePaper {
 
-	private ConcurrentHashMap<Long, String> paper; // memberId, 결과
 
-	public void put(Long memberId, String result) {
-		paper.put(memberId, result);
-	}
+    private ConcurrentHashMap<Long, String> paper;   //memberId, 결과
 
-	public int getSize() {
-		return paper.size();
-	}
+    public void put(Long memberId, String result) {
+        paper.put(memberId, result);
+    }
 
-	public HashMap<Integer, Integer> getPaperCount() { // 문항번호 , 나온 문항의 true 개수
-		HashMap<Integer, Integer> paperCount = new HashMap<>();
-		for (Long memberId : paper.keySet()) {
-			String memberVote = paper.get(memberId);
-			String[] voteSheet = memberVote.split(",");
-			countVote(paperCount, voteSheet);
-		}
+    public int getSize() {
+        return paper.size();
+    }
 
-		return paperCount;
-	}
+    public HashMap<Integer, Integer> getPaperCount() {    //문항번호 , 나온 문항의 true 개수
+        HashMap<Integer, Integer> paperCount = new HashMap<>();
+        for (Long memberId : paper.keySet()) {
+            String memberVote = paper.get(memberId);
+            String[] voteSheet = memberVote.split(",");
+            countVote(paperCount, voteSheet);
+        }
 
-	public void reset() {
-		paper.clear();
-	}
+        return paperCount;
 
-	private void countVote(HashMap<Integer, Integer> paperCount, String[] voteSheet) {
-		for (int i = 0; i < voteSheet.length; i++) {
-			if (voteSheet[i].equals("true")) {
-				paperCount.put(i, paperCount.getOrDefault(i, 0) + 1);
-			}
-		}
-	}
+    }
+
+    public void reset() {
+        paper.clear();
+    }
+
+    private void countVote(HashMap<Integer, Integer> paperCount, String[] voteSheet) {
+        for (int i = 0; i < voteSheet.length; i++) {
+            paperCount.put(i, 0);
+        }
+        for (int i = 0; i < voteSheet.length; i++) {
+            if (voteSheet[i].equals("true")) {
+                paperCount.put(i, paperCount.get(i) + 1);
+            }
+        }
+    }
+
+
 }
