@@ -32,7 +32,7 @@ public class MemberSurveyController {
 		return ApiResponseGenerator.success(questions, HttpStatus.OK);
 	}
 
-	//TODO: @RequestBody 제거
+	// TODO: @RequestBody 제거
 	@PostMapping
 	public String receive(
 			@RequestBody ReceiveMemberSurveyRequest survey, HttpServletRequest request) {

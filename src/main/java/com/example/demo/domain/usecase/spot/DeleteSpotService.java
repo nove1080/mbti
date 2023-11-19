@@ -10,12 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DeleteSpotService {
 
-    private SpotRepository spotRepository;
+	private SpotRepository spotRepository;
 
-    @Transactional
-    public void execute(Long spotId) {
-        SpotEntity spot = spotRepository.findById(spotId).orElseThrow(() -> new IllegalArgumentException("Error"));
-        spotRepository.delete(spot);
-    }
-
+	@Transactional
+	public void execute(Long spotId) {
+		SpotEntity spot =
+				spotRepository.findById(spotId).orElseThrow(() -> new IllegalArgumentException("Error"));
+		spotRepository.delete(spot);
+	}
 }
