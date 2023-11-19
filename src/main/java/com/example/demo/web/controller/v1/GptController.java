@@ -19,7 +19,8 @@ public class GptController {
 	AiResponse aiResponse = new GptAiResponse();
 
 	@PostMapping
-	public ApiResponse<ApiResponse.SuccessBody<String>> execute(GptMessageRequest request) {
+	public ApiResponse<ApiResponse.SuccessBody<String>> execute(
+			@RequestBody GptMessageRequest request) {
 
 		return ApiResponseGenerator.success(aiResponse.getResponse(request.getData()), HttpStatus.OK);
 	}

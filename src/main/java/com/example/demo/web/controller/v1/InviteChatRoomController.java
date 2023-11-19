@@ -19,7 +19,8 @@ public class InviteChatRoomController {
 	private final InviteChatRoomService inviteChatRoomService;
 
 	@PostMapping("{chatRoomId}/invite")
-	public String invite(@PathVariable Long chatRoomId, String password, HttpServletRequest request) {
+	public String invite(
+			@PathVariable Long chatRoomId, @RequestBody String password, HttpServletRequest request) {
 		Long memberId = findMemberByToken(request);
 		InviteChatRoomRequest inviteChatRoomRequest =
 				InviteChatRoomRequest.builder()

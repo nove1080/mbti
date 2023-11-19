@@ -17,7 +17,9 @@ public class ChatRoomSpotUpdateController {
 
 	@PostMapping("{chatRoomId}/agree/{memberId}")
 	public void spotUpdate(
-			@PathVariable Long chatRoomId, @PathVariable Long memberId, VoteDestinationRequest request) {
+			@PathVariable Long chatRoomId,
+			@PathVariable Long memberId,
+			@RequestBody VoteDestinationRequest request) {
 		voteDestinationService.execute(
 				VoteDestinationDomainRequest.builder()
 						.chatRoomId(chatRoomId)
