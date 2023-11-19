@@ -21,4 +21,8 @@ public class SpotEntity {
 	private ChatRoomEntity chatRoom;
 
 	private String spot;
+
+	public void changeSpot(String newSpotName) {
+		this.spot = newSpotName;
+	}
 }

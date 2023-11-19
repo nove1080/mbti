@@ -24,7 +24,7 @@ public class MemberController {
 
 	@PostMapping("/login")
 	public ApiResponse<ApiResponse.SuccessBody<SavedUserInfo>> save(
-			@RequestBody @Valid SaveUserRequest request) {
+			@Valid @RequestBody SaveUserRequest request) {
 		SavedUserInfo res = saveUserService.execute(request);
 		return ApiResponseGenerator.success(res, HttpStatus.CREATED);
 	}
