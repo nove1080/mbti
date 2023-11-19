@@ -1,6 +1,8 @@
 package com.example.demo.repository.entity;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import javax.persistence.*;
 import lombok.*;
@@ -32,4 +34,11 @@ public class ChatRoomEntity {
 
 	@OneToMany(mappedBy = "chatRoom")
 	private List<ChatRoomListEntity> chatRoomLists;
+
+	public long getTripPeriod() {
+		LocalDate startDate = start.toLocalDate();
+		LocalDate endDate = end.toLocalDate();
+
+		return ChronoUnit.DAYS.between(startDate, endDate);
+	}
 }

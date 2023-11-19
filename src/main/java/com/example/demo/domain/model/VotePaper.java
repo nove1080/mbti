@@ -1,9 +1,8 @@
 package com.example.demo.domain.model;
 
-import lombok.*;
-
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
+import lombok.*;
 
 @Getter
 @ToString
@@ -11,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class VotePaper {
+
 
     private ConcurrentHashMap<Long, String> paper;   //memberId, 결과
 
