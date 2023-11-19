@@ -19,7 +19,7 @@ public class CreateSpotService {
     public Long execute(String spot, Long chatroomId) {
         return spotRepository.save(SpotEntity.builder()
                         .spot(spot)
-                        .chatroom(getChatRoom(chatroomId))
+                        .chatRoom(getChatRoom(chatroomId))
                         .build())
                 .getId();
     }
