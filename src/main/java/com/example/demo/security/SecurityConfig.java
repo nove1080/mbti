@@ -14,6 +14,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -29,6 +32,7 @@ public class SecurityConfig {
 		http.csrf().disable();
 		http.formLogin().disable();
 		http.httpBasic().disable();
+		http.cors().configurationSource(corsConfigurationSource());
 		http.authorizeRequests()
 				.antMatchers(
 						HttpMethod.GET,
@@ -66,6 +70,7 @@ public class SecurityConfig {
 		http.csrf().disable();
 		http.formLogin().disable();
 		http.httpBasic().disable();
+		http.cors().configurationSource(corsConfigurationSource());
 
 		http.authorizeRequests()
 				.antMatchers(
@@ -98,5 +103,19 @@ public class SecurityConfig {
 		TokenAuthenticationFilter tokenAuthenticationFilter = new TokenAuthenticationFilter();
 		tokenAuthenticationFilter.setAuthenticationManager(new ProviderManager(tokenAuthProvider));
 		return tokenAuthenticationFilter;
+	}
+
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+
+		configuration.addAllowedOriginPattern("*");
+		configuration.addAllowedHeader("*");
+		configuration.addAllowedMethod("*");
+		configuration.setAllowCredentials(true);
+
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
 	}
 }
