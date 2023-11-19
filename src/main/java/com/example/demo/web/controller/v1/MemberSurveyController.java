@@ -32,10 +32,8 @@ public class MemberSurveyController {
 		return ApiResponseGenerator.success(questions, HttpStatus.OK);
 	}
 
-	// TODO: @RequestBody 제거
 	@PostMapping
-	public String receive(
-			@RequestBody ReceiveMemberSurveyRequest survey, HttpServletRequest request) {
+	public String receive(ReceiveMemberSurveyRequest survey, HttpServletRequest request) {
 		Long memberId = findMemberByToken(request);
 		receiveMemberSurveyService.execute(survey, memberId);
 

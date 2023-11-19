@@ -12,21 +12,21 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CreateSpotService {
 
-    private SpotRepository spotRepository;
-    private ChatRoomRepository chatRoomRepository;
+	private SpotRepository spotRepository;
+	private ChatRoomRepository chatRoomRepository;
 
-    @Transactional
-    public Long execute(String spot, Long chatroomId) {
-        return spotRepository.save(SpotEntity.builder()
-                        .spot(spot)
-                        .chatRoom(getChatRoom(chatroomId))
-                        .build())
-                .getId();
-    }
+	@Transactional
+	public Long execute(String spot, Long chatroomId) {
+		return spotRepository
+				.save(SpotEntity.builder().spot(spot).chatRoom(getChatRoom(chatroomId)).build())
+				.getId();
+	}
 
-    private ChatRoomEntity getChatRoom(Long chatroomId) {
-        ChatRoomEntity chatRoom = chatRoomRepository.findById(chatroomId).orElseThrow(() -> new IllegalArgumentException("해당 채팅방은 존재하지 않습니다."));
-        return chatRoom;
-    }
-
+	private ChatRoomEntity getChatRoom(Long chatroomId) {
+		ChatRoomEntity chatRoom =
+				chatRoomRepository
+						.findById(chatroomId)
+						.orElseThrow(() -> new IllegalArgumentException("해당 채팅방은 존재하지 않습니다."));
+		return chatRoom;
+	}
 }

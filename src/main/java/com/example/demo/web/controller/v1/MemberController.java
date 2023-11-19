@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,8 +22,7 @@ public class MemberController {
 	private final SaveUserService saveUserService;
 
 	@PostMapping("/login")
-	public ApiResponse<ApiResponse.SuccessBody<SavedUserInfo>> save(
-			@RequestBody @Valid SaveUserRequest request) {
+	public ApiResponse<ApiResponse.SuccessBody<SavedUserInfo>> save(@Valid SaveUserRequest request) {
 		SavedUserInfo res = saveUserService.execute(request);
 		return ApiResponseGenerator.success(res, HttpStatus.CREATED);
 	}

@@ -64,7 +64,7 @@ public class ChatRoomController {
 	// TODO: @RequestBody 제거
 	@PostMapping("/survey")
 	public String submitSurvey(
-			@RequestBody CreateChatSurveyResultRequest requestData, HttpServletRequest request) {
+			CreateChatSurveyResultRequest requestData, HttpServletRequest request) {
 		createChatSurveyResultService.execute(requestData);
 		changeChatroomStatus(requestData, request);
 		return "redirect:/api/v1/chatrooms";

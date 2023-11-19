@@ -9,8 +9,7 @@ import lombok.*;
 @Builder(toBuilder = true)
 public class InviteChatRoomRequest {
 
-    private Long chatRoomId;
-    private Long memberId;
-    private String password;
-
+	private Long chatRoomId;
+	private Long memberId;
+	private String password;
 }
