@@ -2,6 +2,8 @@ package com.example.demo.domain.usecase.chatroom;
 
 import com.example.demo.client.gpt.AiResponse;
 import com.example.demo.client.gpt.GptAiResponse;
+import com.example.demo.client.summary.NaverSummaryResponse;
+import com.example.demo.client.summary.SummaryResponse;
 import com.example.demo.domain.dto.request.VoteDestinationDomainRequest;
 import com.example.demo.domain.model.VotePaper;
 import com.example.demo.repository.entity.ChatRoomListEntity;
@@ -33,6 +35,9 @@ public class VoteDestinationService {
 
 	private final SpotRepository spotRepository;
 
+	private final AiResponse ai = new GptAiResponse();
+	private final SummaryResponse summaryResponse = new NaverSummaryResponse();
+
 	public void execute(VoteDestinationDomainRequest request) {
 		if (!AllBallotPapers.containsKey(request.getChatRoomId())) {
 			AllBallotPapers.put(
@@ -61,13 +66,14 @@ public class VoteDestinationService {
 							.map(e -> e.getSpot())
 							.collect(Collectors.toCollection(ArrayList::new));
 
-			// firebase로 채팅 내용 불러오고
+			// firebase로 채팅 내용 불러오고 요약
 
 			String chatMessage = "";
+			String chatSummary = summaryResponse.getResponse(chatMessage);
 
 			// gpt를 통해 수정된 내용을 받아오고 채팅내용과 함께 gpt로 전송
 			// todo prompt 추가
-			AiResponse ai = new GptAiResponse();
+
 			String gptResponse =
 					ai.getResponse(
 							reRecommendSpot(chatMessage, String.join(",", shouldModifiedSpotName), shouldModifiedSpotName.size()));
