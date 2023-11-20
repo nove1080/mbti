@@ -16,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.example.demo.domain.util.prompt.PromptTemplate.*;
+
 @Slf4j
 @Service
 @Transactional(readOnly = true)
@@ -61,19 +63,22 @@ public class VoteDestinationService {
 
 			// firebase로 채팅 내용 불러오고
 
+			String chatMessage = "";
+
 			// gpt를 통해 수정된 내용을 받아오고 채팅내용과 함께 gpt로 전송
 			// todo prompt 추가
 			AiResponse ai = new GptAiResponse();
 			String gptResponse =
 					ai.getResponse(
-							String.join(",", shouldModifiedSpotName)
-									+ " 의 제주도 여행지를 다른걸로 추천해줘 이때 다른 말은 하지 말고 ','로 여행지만 분리해줘");
+							reRecommendSpot(chatMessage, String.join(",", shouldModifiedSpotName), shouldModifiedSpotName.size()));
 
 			String[] splitGptResponse = gptResponse.split(",");
 			for (int i = 0; i < splitGptResponse.length; i++) {
 				SpotEntity spotEntity = shouldModifiedSpotEntity.get(i);
 				spotEntity.changeSpot(splitGptResponse[i]);
 			}
+
+			String promptMessage = messageAfterGptChange(String.join(",", splitGptResponse));
 
 			//            //FirebaseClient로 전송
 			//            //todo prompt추가
