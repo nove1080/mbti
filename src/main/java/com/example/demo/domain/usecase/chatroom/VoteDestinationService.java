@@ -1,6 +1,7 @@
 package com.example.demo.domain.usecase.chatroom;
 
-import com.example.demo.client.firebase.FirebaseClient;
+import static com.example.demo.domain.util.prompt.PromptTemplate.*;
+
 import com.example.demo.client.gpt.AiResponse;
 import com.example.demo.client.gpt.GptAiResponse;
 import com.example.demo.client.summary.NaverSummaryResponse;
@@ -20,8 +21,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static com.example.demo.domain.util.prompt.PromptTemplate.*;
 
 @Slf4j
 @Service
@@ -63,7 +62,6 @@ public class VoteDestinationService {
 			List<SpotEntity> allSpotByChatRoomId =
 					spotRepository.findAllByChatRoomId(request.getChatRoomId());
 
-
 			List<SpotEntity> shouldModifiedSpotEntites = new ArrayList<>();
 
 			for (int i = 0; i < shouldModifiedSpot.size(); i++) {
@@ -75,7 +73,7 @@ public class VoteDestinationService {
 							.collect(Collectors.toCollection(ArrayList::new));
 
 			if (shouldModifiedSpotName.size() == 0) {
-				//chatRoom 상태 업데이트
+				// chatRoom 상태 업데이트
 				ChatRoomEntity chatRoom = chatRoomRepository.findById(request.getChatRoomId()).get();
 				chatRoom.changeComplete();
 				chatRoomRepository.save(chatRoom);
@@ -86,16 +84,17 @@ public class VoteDestinationService {
 
 			// firebase로 채팅 내용 불러오고 요약
 
-//			String chatMessage = "12345";
-//			String chatSummary = summaryResponse.getResponse(chatMessage);
+			//			String chatMessage = "12345";
+			//			String chatSummary = summaryResponse.getResponse(chatMessage);
 
 			// gpt를 통해 수정된 내용을 받아오고 채팅내용과 함께 gpt로 전송  //todo
 
-//			String gptResponse =
-//					ai.getResponse(
-//							reRecommendSpot(chatMessage, String.join(",", shouldModifiedSpotName), shouldModifiedSpotName.size()));
+			//			String gptResponse =
+			//					ai.getResponse(
+			//							reRecommendSpot(chatMessage, String.join(",", shouldModifiedSpotName),
+			// shouldModifiedSpotName.size()));
 
-			String gptResponse = "1,2,3,4,5";   //데모
+			String gptResponse = "1,2,3,4,5"; // 데모
 
 			String[] splitGptResponse = gptResponse.split(",");
 			for (int i = 0; i < splitGptResponse.length; i++) {
@@ -106,17 +105,15 @@ public class VoteDestinationService {
 
 			String promptMessage = messageAfterGptChange(String.join(",", splitGptResponse));
 
-			//FirebaseClient로 전송
-//			//todo prompt추가
-//			FirebaseClient firebaseClient = new FirebaseClient();
-//			firebaseClient.postRequest(request.getChatRoomId(), gptResponse);
-
+			// FirebaseClient로 전송
+			//			//todo prompt추가
+			//			FirebaseClient firebaseClient = new FirebaseClient();
+			//			firebaseClient.postRequest(request.getChatRoomId(), gptResponse);
 
 			// votePaper 리셋
 			votePaper.reset();
 		}
 	}
-
 
 	private void changeComplete(VoteDestinationDomainRequest request, VotePaper votePaper) {
 		ChatRoomEntity chatRoom = chatRoomRepository.findById(request.getChatRoomId()).get();

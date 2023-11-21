@@ -6,25 +6,25 @@ import org.springframework.web.client.RestTemplate;
 
 public interface SummaryResponse {
 
-    String getResponse(String message);
+	String getResponse(String message);
 
-    private String connect(String message) {
-        String url = "https://naveropenapi.apigw.ntruss.com/text-summary/v1/summarize";
+	private String connect(String message) {
+		String url = "https://naveropenapi.apigw.ntruss.com/text-summary/v1/summarize";
 
-        GptMessageRequest requestDto = GptMessageRequest.builder().data(message).build();
+		GptMessageRequest requestDto = GptMessageRequest.builder().data(message).build();
 
-        // RestTemplate 생성
-        RestTemplate restTemplate = new RestTemplate();
+		// RestTemplate 생성
+		RestTemplate restTemplate = new RestTemplate();
 
-        // 요청 매개변수 설정
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<GptMessageRequest> request = new HttpEntity<>(requestDto, headers);
+		// 요청 매개변수 설정
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<GptMessageRequest> request = new HttpEntity<>(requestDto, headers);
 
-        // HTTP 요청 및 응답 처리
-        ResponseEntity<String> responseDto =
-                restTemplate.exchange(url, HttpMethod.POST, request, String.class);
+		// HTTP 요청 및 응답 처리
+		ResponseEntity<String> responseDto =
+				restTemplate.exchange(url, HttpMethod.POST, request, String.class);
 
-        return responseDto.getBody();
-    }
+		return responseDto.getBody();
+	}
 }

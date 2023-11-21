@@ -21,12 +21,13 @@ public class ReadSpotService {
 	public SpotResponse execute(Long chatroomId) {
 		ChatRoomEntity chatRoomEntity = chatRoomRepository.findById(chatroomId).get();
 
-
 		List<String> spots = new ArrayList<>();
 		spotRepository.findAllByChatRoomId(chatroomId).forEach(spot -> spots.add(spot.getSpot()));
 
-		return SpotResponse.builder().spots(spots)
+		return SpotResponse.builder()
+				.spots(spots)
 				.managerId(chatRoomEntity.getManager().getId())
-				.isCompleted(chatRoomEntity.getIsComplete()).build();
+				.isCompleted(chatRoomEntity.getIsComplete())
+				.build();
 	}
 }

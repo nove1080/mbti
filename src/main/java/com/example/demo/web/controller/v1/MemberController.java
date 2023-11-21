@@ -25,7 +25,6 @@ public class MemberController {
 	private final SaveUserService saveUserService;
 	private final LoadUserService loadUserService;
 
-
 	@PostMapping("/login")
 	public ApiResponse<ApiResponse.SuccessBody<SavedUserInfo>> login(
 			@Valid @RequestBody LoginUserRequest request) {
@@ -39,7 +38,4 @@ public class MemberController {
 		SavedUserInfo res = saveUserService.execute(request);
 		return ApiResponseGenerator.success(res, HttpStatus.CREATED);
 	}
-
-
-
 }

@@ -9,5 +9,5 @@ import lombok.*;
 @Builder(toBuilder = true)
 public class NaverSummaryResponseDto {
 
-    private String summary;
+	private String summary;
 }
