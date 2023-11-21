@@ -33,3 +33,23 @@ INSERT INTO mbti.chat_room_survey_question_entity (version, question, selection)
 
 INSERT INTO mbti.history_entity (history, create_date) VALUES ("성산일출봉,한라산","2020-09-01");
 INSERT INTO mbti.history_entity (history, create_date) VALUES ("성산일출봉2,한라산2","2020-09-02");
+
+INSERT INTO mbti.member_entity(name,password,email,deleted) values ("문영상","1234","1@1",0);
+INSERT INTO mbti.member_entity(name,password,email,deleted) values ("나제법","1234","1@2",0);
+INSERT INTO mbti.member_entity(name,password,email,deleted) values ("김진영","1234","1@3",0);
+INSERT INTO mbti.member_entity(name,password,email,deleted) values ("김종준","1234","1@4",0);
+INSERT INTO mbti.member_entity(name,password,email,deleted) values ("안호균","1234","1@5",0);
+
+INSERT INTO mbti.chat_room_entity(title,password,headcount,member_id,is_complete) VALUES("title","1234",5,1,0);
+
+insert into mbti.chat_room_list_entity(chat_room_id,member_id) values (1,1);
+insert into mbti.chat_room_list_entity(chat_room_id,member_id) values (1,2);
+insert into mbti.chat_room_list_entity(chat_room_id,member_id) values (1,3);
+insert into mbti.chat_room_list_entity(chat_room_id,member_id) values (1,4);
+insert into mbti.chat_room_list_entity(chat_room_id,member_id) values (1,5);
+
+insert into mbti.spot_entity(chat_room_id,spot) values (1,"제주도명소1");
+insert into mbti.spot_entity(chat_room_id,spot) values (1,"제주도명소2");
+insert into mbti.spot_entity(chat_room_id,spot) values (1,"제주도명소3");
+insert into mbti.spot_entity(chat_room_id,spot) values (1,"제주도명소4");
+insert into mbti.spot_entity(chat_room_id,spot) values (1,"제주도명소5");

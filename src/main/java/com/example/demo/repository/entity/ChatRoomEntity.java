@@ -32,6 +32,12 @@ public class ChatRoomEntity {
 
 	private Date end;
 
+	@OneToOne
+	@JoinColumn(name = "member_id")
+	private MemberEntity manager;
+
+	private Boolean isComplete;
+
 	@OneToMany(mappedBy = "chatRoom")
 	private List<ChatRoomListEntity> chatRoomLists;
 
@@ -40,5 +46,9 @@ public class ChatRoomEntity {
 		LocalDate endDate = end.toLocalDate();
 
 		return ChronoUnit.DAYS.between(startDate, endDate);
+	}
+
+	public void changeComplete() {
+		this.isComplete = true;
 	}
 }
