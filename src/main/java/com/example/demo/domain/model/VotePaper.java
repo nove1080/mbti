@@ -1,5 +1,6 @@
 package com.example.demo.domain.model;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.*;
@@ -23,6 +24,16 @@ public class VotePaper {
 
 	public HashMap<Integer, Integer> getPaperCount() { // 문항번호 , 나온 문항의 true 개수
 		HashMap<Integer, Integer> paperCount = new HashMap<>();
+		for (Long memberId : paper.keySet()){
+			String memberVote = paper.get(memberId);
+			String[] voteSheet = memberVote.split(",");
+			for (int i = 0; i < voteSheet.length ; i++) {
+				paperCount.put(i, 0);
+			}
+			break;
+		}
+
+
 		for (Long memberId : paper.keySet()) {
 			String memberVote = paper.get(memberId);
 			String[] voteSheet = memberVote.split(",");
@@ -37,9 +48,7 @@ public class VotePaper {
 	}
 
 	private void countVote(HashMap<Integer, Integer> paperCount, String[] voteSheet) {
-		for (int i = 0; i < voteSheet.length; i++) {
-			paperCount.put(i, 0);
-		}
+
 		for (int i = 0; i < voteSheet.length; i++) {
 			if (voteSheet[i].equals("true")) {
 				paperCount.put(i, paperCount.get(i) + 1);

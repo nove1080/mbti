@@ -1,14 +1,17 @@
 package com.example.demo.domain.usecase.chatroom;
 
+import com.example.demo.client.firebase.FirebaseClient;
 import com.example.demo.client.gpt.AiResponse;
 import com.example.demo.client.gpt.GptAiResponse;
 import com.example.demo.client.summary.NaverSummaryResponse;
 import com.example.demo.client.summary.SummaryResponse;
 import com.example.demo.domain.dto.request.VoteDestinationDomainRequest;
 import com.example.demo.domain.model.VotePaper;
+import com.example.demo.repository.entity.ChatRoomEntity;
 import com.example.demo.repository.entity.ChatRoomListEntity;
 import com.example.demo.repository.entity.SpotEntity;
 import com.example.demo.repository.repository.ChatRoomListRepository;
+import com.example.demo.repository.repository.ChatRoomRepository;
 import com.example.demo.repository.repository.SpotRepository;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,11 +36,14 @@ public class VoteDestinationService {
 
 	private final ChatRoomListRepository chatRoomListRepository;
 
+	private final ChatRoomRepository chatRoomRepository;
+
 	private final SpotRepository spotRepository;
 
 	private final AiResponse ai = new GptAiResponse();
 	private final SummaryResponse summaryResponse = new NaverSummaryResponse();
 
+	@Transactional
 	public void execute(VoteDestinationDomainRequest request) {
 		if (!AllBallotPapers.containsKey(request.getChatRoomId())) {
 			AllBallotPapers.put(
@@ -56,45 +62,68 @@ public class VoteDestinationService {
 			// 문항번호를 다시 여행지로 변환해줘야함
 			List<SpotEntity> allSpotByChatRoomId =
 					spotRepository.findAllByChatRoomId(request.getChatRoomId());
-			List<SpotEntity> shouldModifiedSpotEntity = new ArrayList<>();
+
+
+			List<SpotEntity> shouldModifiedSpotEntites = new ArrayList<>();
 
 			for (int i = 0; i < shouldModifiedSpot.size(); i++) {
-				shouldModifiedSpotEntity.add(allSpotByChatRoomId.get(shouldModifiedSpot.get(i)));
+				shouldModifiedSpotEntites.add(allSpotByChatRoomId.get(shouldModifiedSpot.get(i)));
 			}
 			List<String> shouldModifiedSpotName =
-					shouldModifiedSpotEntity.stream()
+					shouldModifiedSpotEntites.stream()
 							.map(e -> e.getSpot())
 							.collect(Collectors.toCollection(ArrayList::new));
 
+			if (shouldModifiedSpotName.size() == 0) {
+				//chatRoom 상태 업데이트
+				ChatRoomEntity chatRoom = chatRoomRepository.findById(request.getChatRoomId()).get();
+				chatRoom.changeComplete();
+				chatRoomRepository.save(chatRoom);
+
+				votePaper.reset();
+				return;
+			}
+
 			// firebase로 채팅 내용 불러오고 요약
 
-			String chatMessage = "";
-			String chatSummary = summaryResponse.getResponse(chatMessage);
+//			String chatMessage = "12345";
+//			String chatSummary = summaryResponse.getResponse(chatMessage);
 
-			// gpt를 통해 수정된 내용을 받아오고 채팅내용과 함께 gpt로 전송
-			// todo prompt 추가
+			// gpt를 통해 수정된 내용을 받아오고 채팅내용과 함께 gpt로 전송  //todo
 
-			String gptResponse =
-					ai.getResponse(
-							reRecommendSpot(chatMessage, String.join(",", shouldModifiedSpotName), shouldModifiedSpotName.size()));
+//			String gptResponse =
+//					ai.getResponse(
+//							reRecommendSpot(chatMessage, String.join(",", shouldModifiedSpotName), shouldModifiedSpotName.size()));
+
+			String gptResponse = "1,2,3,4,5";   //데모
 
 			String[] splitGptResponse = gptResponse.split(",");
 			for (int i = 0; i < splitGptResponse.length; i++) {
-				SpotEntity spotEntity = shouldModifiedSpotEntity.get(i);
+				SpotEntity spotEntity = shouldModifiedSpotEntites.get(i);
 				spotEntity.changeSpot(splitGptResponse[i]);
+				spotRepository.save(spotEntity);
 			}
 
 			String promptMessage = messageAfterGptChange(String.join(",", splitGptResponse));
 
-			//            //FirebaseClient로 전송
-			//            //todo prompt추가
-			//            FirebaseClient firebaseClient = new FirebaseClient();
-			//            firebaseClient.postRequest(request.getChatRoomId(), gptResponse);
-			//
-			//
-			log.debug("getResponse : {}", gptResponse);
+			//FirebaseClient로 전송
+//			//todo prompt추가
+//			FirebaseClient firebaseClient = new FirebaseClient();
+//			firebaseClient.postRequest(request.getChatRoomId(), gptResponse);
+
+
+			// votePaper 리셋
 			votePaper.reset();
 		}
+	}
+
+
+	private void changeComplete(VoteDestinationDomainRequest request, VotePaper votePaper) {
+		ChatRoomEntity chatRoom = chatRoomRepository.findById(request.getChatRoomId()).get();
+		chatRoom.changeComplete();
+		chatRoomRepository.save(chatRoom);
+
+		votePaper.reset();
 	}
 
 	private List<Integer> compareVote(VotePaper chatRoomBallotPaper, int memberCount) {

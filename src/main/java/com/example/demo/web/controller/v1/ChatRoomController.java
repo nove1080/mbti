@@ -40,7 +40,7 @@ public class ChatRoomController {
 	public String save(
 			@RequestBody @Valid CreateChatRoomRequest requestData, HttpServletRequest request) {
 		Long memberId = findMemberByToken(request);
-		Long chatroomId = createChatRoomService.execute(requestData);
+		Long chatroomId = createChatRoomService.execute(requestData,memberId);
 
 		createChatRoomListService.create(memberId, chatroomId);
 		return "redirect:/api/v1/chatrooms";
