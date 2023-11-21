@@ -3,9 +3,8 @@ package com.example.demo.web.controller.v1;
 import com.example.demo.domain.usecase.chatroom.InviteChatRoomService;
 import com.example.demo.security.authentication.token.TokenUserDetailsService;
 import com.example.demo.web.dto.request.InviteChatRoomRequest;
-import javax.servlet.http.HttpServletRequest;
-
 import com.example.demo.web.dto.request.InvitePasswordRequest;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +21,9 @@ public class InviteChatRoomController {
 
 	@PostMapping("{chatRoomId}/invite")
 	public String invite(
-			@PathVariable Long chatRoomId, @RequestBody InvitePasswordRequest passwordRequest, HttpServletRequest request) {
+			@PathVariable Long chatRoomId,
+			@RequestBody InvitePasswordRequest passwordRequest,
+			HttpServletRequest request) {
 		Long memberId = findMemberByToken(request);
 		InviteChatRoomRequest inviteChatRoomRequest =
 				InviteChatRoomRequest.builder()
