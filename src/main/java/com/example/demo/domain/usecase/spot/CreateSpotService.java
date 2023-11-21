@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CreateSpotService {
 
-	private SpotRepository spotRepository;
-	private ChatRoomRepository chatRoomRepository;
+	private final SpotRepository spotRepository;
+	private final ChatRoomRepository chatRoomRepository;
 
 	@Transactional
 	public Long execute(String spot, Long chatroomId) {
