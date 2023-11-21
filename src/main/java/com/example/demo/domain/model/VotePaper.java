@@ -26,6 +26,15 @@ public class VotePaper {
 		for (Long memberId : paper.keySet()) {
 			String memberVote = paper.get(memberId);
 			String[] voteSheet = memberVote.split(",");
+			for (int i = 0; i < voteSheet.length; i++) {
+				paperCount.put(i, 0);
+			}
+			break;
+		}
+
+		for (Long memberId : paper.keySet()) {
+			String memberVote = paper.get(memberId);
+			String[] voteSheet = memberVote.split(",");
 			countVote(paperCount, voteSheet);
 		}
 
@@ -37,9 +46,7 @@ public class VotePaper {
 	}
 
 	private void countVote(HashMap<Integer, Integer> paperCount, String[] voteSheet) {
-		for (int i = 0; i < voteSheet.length; i++) {
-			paperCount.put(i, 0);
-		}
+
 		for (int i = 0; i < voteSheet.length; i++) {
 			if (voteSheet[i].equals("true")) {
 				paperCount.put(i, paperCount.get(i) + 1);

@@ -3,11 +3,12 @@ package com.example.demo.repository.entity;
 import com.example.demo.repository.entity.constant.ChatRoomStatus;
 import javax.persistence.*;
 import lombok.*;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity(name = "chat_room_list_entity")
 @Getter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
@@ -33,5 +34,10 @@ public class ChatRoomListEntity {
 
 	public void changeChatStatus(ChatRoomStatus chatStatus) {
 		this.chatStatus = chatStatus;
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 }
