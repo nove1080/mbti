@@ -1,7 +1,12 @@
 package com.example.demo.web.controller.v1;
 
+import com.example.demo.client.gpt.AiResponse;
+import com.example.demo.client.gpt.GptAiResponse;
 import com.example.demo.domain.usecase.chatroom.*;
+import com.example.demo.domain.usecase.spot.CreateSpotService;
 import com.example.demo.domain.usecase.spot.ReadSpotService;
+import com.example.demo.domain.util.GptChatSurveyGenerator;
+import com.example.demo.domain.util.prompt.PromptTemplate;
 import com.example.demo.repository.entity.constant.ChatRoomStatus;
 import com.example.demo.security.authentication.token.TokenUserDetailsService;
 import com.example.demo.support.ApiResponse;
@@ -33,8 +38,13 @@ public class ChatRoomController {
 	private final UpdateChatRoomStatusService updateChatRoomStatusService;
 	private final ReadChatRoomTitleService readChatRoomTitleService;
 	private final ReadSpotService readSpotService;
+	private final CreateSpotService createSpotService;
+	private final GptChatSurveyGenerator gptChatSurveyGenerator;
+	private final AiResponse aiResponse = new GptAiResponse();
 
 	private final TokenUserDetailsService tokenUserDetailsService;
+
+	private static final int GPT_RECOMMEND_COUNT = 5;
 
 	@PostMapping
 	public String save(
@@ -61,7 +71,6 @@ public class ChatRoomController {
 		return ApiResponseGenerator.success(res, HttpStatus.OK);
 	}
 
-	// TODO: @RequestBody 제거
 	@PostMapping("/survey")
 	public String submitSurvey(
 			@RequestBody CreateChatSurveyResultRequest requestData, HttpServletRequest request) {
@@ -84,12 +93,31 @@ public class ChatRoomController {
 
 	private void changeChatroomStatus(
 			CreateChatSurveyResultRequest requestData, HttpServletRequest request) {
+		Long chatRoomId = requestData.getChatRoomId();
 		updateChatRoomStatusService.updateChatStatus(
-				findMemberByToken(request), requestData.getChatRoomId(), ChatRoomStatus.WAITING);
-		if (updateChatRoomStatusService.checkComplete(requestData.getChatRoomId())) {
-			// TODO: 여기에 gpt가 여행지 추천을 한 번 해줘야 한다.
-			updateChatRoomStatusService.updateAllComplete(requestData.getChatRoomId());
+				findMemberByToken(request), chatRoomId, ChatRoomStatus.WAITING);
+		if (updateChatRoomStatusService.checkComplete(chatRoomId)) {
+			updateChatRoomStatusService.updateAllComplete(chatRoomId);
+			saveRecommendSpot(requestData, chatRoomId);
 		}
+	}
+
+	private void saveRecommendSpot(CreateChatSurveyResultRequest requestData, Long chatRoomId) {
+		String gptResult = getRecommendedSpotBasedSurveyResult(requestData, chatRoomId);
+		System.out.println("gptResult: " + gptResult);
+		String[] items = gptResult.split(",");
+		for (String item : items) {
+			createSpotService.execute(item, chatRoomId);
+		}
+	}
+
+	private String getRecommendedSpotBasedSurveyResult(
+			CreateChatSurveyResultRequest requestData, Long chatRoomId) {
+		return gptRecommendSpot(
+				gptChatSurveyGenerator
+						.execute(chatRoomId, requestData.getVersion())
+						.getSurveys()
+						.toString());
 	}
 
 	private Long findMemberByToken(HttpServletRequest request) {
@@ -98,5 +126,11 @@ public class ChatRoomController {
 		UserDetails userDetails = tokenUserDetailsService.loadUserByUsername(substring);
 		Long memberId = Long.parseLong(userDetails.getUsername());
 		return memberId;
+	}
+
+	private String gptRecommendSpot(String message) {
+		String query = PromptTemplate.recommendSpot(message, GPT_RECOMMEND_COUNT);
+		System.out.println("send gpt: " + query);
+		return aiResponse.getResponse(PromptTemplate.recommendSpot(message, GPT_RECOMMEND_COUNT));
 	}
 }

@@ -1,6 +1,6 @@
 package com.example.demo.domain.dto.response;
 
-import java.util.List;
+import java.util.Map;
 import lombok.*;
 
 @Getter
@@ -8,7 +8,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class SummaryMemberSurveyResponse {
+public class SummaryChatSurveyResponse {
 
-	private List<String> surveys;
+	/** key: question value: selections */
+	private Map<String, String> surveys;
 }
