@@ -65,6 +65,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     implementation 'junit:junit:4.13.1'
+    implementation 'com.google.code.gson:gson:2.8.7'
 
     // lombok
     compileOnly 'org.projectlombok:lombok'

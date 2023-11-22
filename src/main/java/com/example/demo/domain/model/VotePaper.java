@@ -1,7 +1,7 @@
 package com.example.demo.domain.model;
 
 import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.LinkedHashMap;
 import lombok.*;
 
 @Getter
@@ -11,7 +11,7 @@ import lombok.*;
 @Builder(toBuilder = true)
 public class VotePaper {
 
-	private ConcurrentHashMap<Long, String> paper; // memberId, 결과
+	private LinkedHashMap<Long, String> paper; // memberId, 결과
 
 	public void put(Long memberId, String result) {
 		paper.put(memberId, result);
@@ -22,7 +22,7 @@ public class VotePaper {
 	}
 
 	public HashMap<Integer, Integer> getPaperCount() { // 문항번호 , 나온 문항의 true 개수
-		HashMap<Integer, Integer> paperCount = new HashMap<>();
+		LinkedHashMap<Integer, Integer> paperCount = new LinkedHashMap<>();
 		for (Long memberId : paper.keySet()) {
 			String memberVote = paper.get(memberId);
 			String[] voteSheet = memberVote.split(",");
