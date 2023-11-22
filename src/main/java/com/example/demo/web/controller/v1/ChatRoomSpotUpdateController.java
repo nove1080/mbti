@@ -19,7 +19,7 @@ public class ChatRoomSpotUpdateController {
 	private final VoteDestinationService voteDestinationService;
 	private final TokenUserDetailsService tokenUserDetailsService;
 
-	@PostMapping("{chatRoomId}/agree/")
+	@PostMapping("{chatRoomId}/agree")
 	public void spotUpdate(
 			@PathVariable Long chatRoomId,
 			@RequestBody VoteDestinationRequest request,
