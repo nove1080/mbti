@@ -104,7 +104,6 @@ public class ChatRoomController {
 
 	private void saveRecommendSpot(CreateChatSurveyResultRequest requestData, Long chatRoomId) {
 		String gptResult = getRecommendedSpotBasedSurveyResult(requestData, chatRoomId);
-		System.out.println("gptResult: " + gptResult);
 		String[] items = gptResult.split(",");
 		for (String item : items) {
 			createSpotService.execute(item, chatRoomId);
@@ -130,7 +129,6 @@ public class ChatRoomController {
 
 	private String gptRecommendSpot(String message) {
 		String query = PromptTemplate.recommendSpot(message, GPT_RECOMMEND_COUNT);
-		System.out.println("send gpt: " + query);
 		return aiResponse.getResponse(PromptTemplate.recommendSpot(message, GPT_RECOMMEND_COUNT));
 	}
 }
