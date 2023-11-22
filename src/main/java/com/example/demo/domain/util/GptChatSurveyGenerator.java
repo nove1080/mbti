@@ -14,7 +14,6 @@ public class GptChatSurveyGenerator {
 	private final ReadChatSurveyQuestionService readChatSurveyQuestionService;
 	private final ChatSurveyRepository chatSurveyRepository;
 
-	/** function(): 형식에 맞게 변환 */
 	public SummaryChatSurveyResponse execute(Long chatroomId, double version) {
 		Map<String, String> surveys = new LinkedHashMap<>();
 		Set<String> questions = getQuestions(version);
@@ -46,7 +45,6 @@ public class GptChatSurveyGenerator {
 		return readChatSurveyQuestionService.execute(version).getSurvey().keySet();
 	}
 
-	/** function(): 단위 멤버당 채팅방 설문 결과 가져오기 1. chat_room_id -> 해당 채팅방의 설문 결과를 가져온다. */
 	private List<String> getSelections(Long chatroomId) {
 		List<String> selections = new ArrayList<>();
 		chatSurveyRepository.findAllByChatRoomId(chatroomId).stream()
