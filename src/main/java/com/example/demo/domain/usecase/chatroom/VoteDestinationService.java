@@ -2,6 +2,7 @@ package com.example.demo.domain.usecase.chatroom;
 
 import static com.example.demo.domain.util.prompt.PromptTemplate.*;
 
+import com.example.demo.client.firebase.FirebaseClient;
 import com.example.demo.client.gpt.AiResponse;
 import com.example.demo.client.gpt.GptAiResponse;
 import com.example.demo.client.summary.NaverSummaryResponse;
@@ -15,7 +16,6 @@ import com.example.demo.repository.repository.ChatRoomListRepository;
 import com.example.demo.repository.repository.ChatRoomRepository;
 import com.example.demo.repository.repository.SpotRepository;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +28,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class VoteDestinationService {
 
+	private final FirebaseClient firebaseClient;
 	private final double SELECT_RATIO = 0.66;
 
 	private static final Map<Long, VotePaper> AllBallotPapers =
-			new ConcurrentHashMap<>(); // chatRoomId, 투표용지
+			new LinkedHashMap<>(); // chatRoomId, 투표용지
 
 	private final ChatRoomListRepository chatRoomListRepository;
 
@@ -46,7 +47,7 @@ public class VoteDestinationService {
 	public void execute(VoteDestinationDomainRequest request) {
 		if (!AllBallotPapers.containsKey(request.getChatRoomId())) {
 			AllBallotPapers.put(
-					request.getChatRoomId(), VotePaper.builder().paper(new ConcurrentHashMap<>()).build());
+					request.getChatRoomId(), VotePaper.builder().paper(new LinkedHashMap<>()).build());
 		}
 		VotePaper votePaper = AllBallotPapers.get(request.getChatRoomId());
 
@@ -84,17 +85,19 @@ public class VoteDestinationService {
 
 			// firebase로 채팅 내용 불러오고 요약
 
-			//			String chatMessage = "12345";
-			//			String chatSummary = summaryResponse.getResponse(chatMessage);
+			String chatMessage = firebaseClient.getResponse();
+
+			String chatSummary = summaryResponse.getResponse(chatMessage);
+			System.out.println(chatSummary);
 
 			// gpt를 통해 수정된 내용을 받아오고 채팅내용과 함께 gpt로 전송  //todo
 
-			//			String gptResponse =
-			//					ai.getResponse(
-			//							reRecommendSpot(chatMessage, String.join(",", shouldModifiedSpotName),
-			// shouldModifiedSpotName.size()));
-
-			String gptResponse = "1,2,3,4,5"; // 데모
+			String gptResponse =
+					ai.getResponse(
+							reRecommendSpot(
+									chatMessage,
+									String.join(",", shouldModifiedSpotName),
+									shouldModifiedSpotName.size()));
 
 			String[] splitGptResponse = gptResponse.split(",");
 			for (int i = 0; i < splitGptResponse.length; i++) {
@@ -126,7 +129,7 @@ public class VoteDestinationService {
 	private List<Integer> compareVote(VotePaper chatRoomBallotPaper, int memberCount) {
 		List<Integer> shouldModifiedSpot = new ArrayList<>();
 		HashMap<Integer, Integer> paperCount = chatRoomBallotPaper.getPaperCount();
-		int SelectSpotLimit = (int) Math.floor(memberCount * SELECT_RATIO);
+		int SelectSpotLimit = (int) Math.ceil(memberCount * SELECT_RATIO);
 
 		for (Integer spotId : paperCount.keySet()) {
 			if (paperCount.get(spotId) < SelectSpotLimit) {
