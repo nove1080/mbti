@@ -16,7 +16,7 @@ public class PromptTemplate {
 					+ "채팅 대화 내용과 이전에 마음에 들지 않았던 여행지 정보를 가지고 마음에 들만한 여행지를 추천해 줘야 해"
 					+ "여행지를 추천해줄때 너는 여행지들을 콤마(,)로 구분해서 여행지이름만 출력해야해. { 채팅 대화 내용 : ";
 	private static final String RE_END_PROMPT_MESSAGE_0 = ", 이전에 마음에 들지 않았던 여행지 : ";
-	private static final String RE_END_PROMPT_MESSAGE_1 = "} 이런 정보를 가지고 여행지를 ";
+	private static final String RE_END_PROMPT_MESSAGE_1 = "} 이런 정보를 가지고 여행지를 무조건 ";
 	private static final String RE_END_PROMPT_MESSAGE_2 = "개 추천해줘 ";
 	private static final String RE_END_PROMPT_MESSAGE_3 = "개 새로 추천해줘 ";
 
@@ -36,7 +36,6 @@ public class PromptTemplate {
 				+ distasteSpot
 				+ RE_END_PROMPT_MESSAGE_1
 				+ count
-				+ RE_END_PROMPT_MESSAGE_2
 				+ RE_END_PROMPT_MESSAGE_3;
 	}
 

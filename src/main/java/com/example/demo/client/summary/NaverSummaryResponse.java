@@ -3,6 +3,7 @@ package com.example.demo.client.summary;
 import com.example.demo.domain.dto.request.NaverSummaryRequest;
 import com.example.demo.domain.dto.response.NaverSummaryResponseDto;
 import org.springframework.http.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 public class NaverSummaryResponse implements SummaryResponse {
@@ -29,12 +30,16 @@ public class NaverSummaryResponse implements SummaryResponse {
 		headers.add("X-NCP-APIGW-API-KEY", "PdLSWdaLB1OaxGD4u7ir2IWUTvl8IGKCsj2y8Ysp");
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<NaverSummaryRequest> request = new HttpEntity<>(requestDto, headers);
-		System.out.println(request.toString());
 
 		// HTTP 요청 및 응답 처리
-		ResponseEntity<NaverSummaryResponseDto> responseDto =
-				restTemplate.exchange(url, HttpMethod.POST, request, NaverSummaryResponseDto.class);
+		ResponseEntity<NaverSummaryResponseDto> responseDto = null;
+		try {
 
+			responseDto =
+					restTemplate.exchange(url, HttpMethod.POST, request, NaverSummaryResponseDto.class);
+		} catch (HttpClientErrorException e) {
+			return "";
+		}
 		return responseDto.getBody().getSummary();
 	}
 }

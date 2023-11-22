@@ -17,11 +17,13 @@ public class NaverSummaryRequest {
 	}
 
 	@Getter
+	@ToString
 	private class Document {
 		private String content;
 	}
 
 	@Getter
+	@ToString
 	private class Option {
 		private String language = "ko";
 		private Integer tone = 3;
