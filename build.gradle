@@ -66,7 +66,8 @@ dependencies {
     implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     implementation 'junit:junit:4.13.1'
     implementation 'com.google.code.gson:gson:2.8.7'
-
+    // Apache HttpClient
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
     // lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
