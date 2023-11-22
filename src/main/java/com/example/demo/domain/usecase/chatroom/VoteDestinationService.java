@@ -4,9 +4,11 @@ import static com.example.demo.domain.util.prompt.PromptTemplate.*;
 
 import com.example.demo.client.firebase.FirebaseClient;
 import com.example.demo.client.gpt.AiResponse;
+import com.example.demo.client.gpt.FirestoreDocumentAdder;
 import com.example.demo.client.gpt.GptAiResponse;
 import com.example.demo.client.summary.NaverSummaryResponse;
 import com.example.demo.client.summary.SummaryResponse;
+import com.example.demo.domain.dto.request.FirestoreDocumentRequest;
 import com.example.demo.domain.dto.request.VoteDestinationDomainRequest;
 import com.example.demo.domain.model.VotePaper;
 import com.example.demo.repository.entity.ChatRoomEntity;
@@ -109,9 +111,16 @@ public class VoteDestinationService {
 			String promptMessage = messageAfterGptChange(String.join(",", splitGptResponse));
 
 			// FirebaseClient로 전송
-			//			//todo prompt추가
-			//			FirebaseClient firebaseClient = new FirebaseClient();
-			//			firebaseClient.postRequest(request.getChatRoomId(), gptResponse);
+			FirestoreDocumentAdder adder = new FirestoreDocumentAdder();
+			FirestoreDocumentRequest firestoreDocumentRequest =
+					new FirestoreDocumentRequest.Builder()
+							.userId("test_user_id")
+							.username("test_user")
+							.chatRoomId(1L)
+							.message("message for test")
+							.type("type")
+							.build();
+			adder.send(firestoreDocumentRequest);
 
 			// votePaper 리셋
 			votePaper.reset();
