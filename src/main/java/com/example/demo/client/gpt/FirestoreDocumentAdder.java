@@ -14,7 +14,7 @@ import org.apache.http.util.EntityUtils;
 @Slf4j
 public class FirestoreDocumentAdder {
 
-	public void send(FirestoreDocumentRequest request) throws IOException {
+	public void send(FirestoreDocumentRequest request) {
 		String url =
 				"https://firestore.googleapis.com/v1/projects/nwitter-reloaded-683ef/databases/(default)/documents/messages";
 
@@ -22,7 +22,11 @@ public class FirestoreDocumentAdder {
 		JsonObject documentData = createDocumentData(request);
 
 		// Firestore에 문서 추가
-		addDocumentToFirestore(url, documentData);
+		try {
+			addDocumentToFirestore(url, documentData);
+		} catch (IOException e) {
+			throw new IllegalArgumentException("입력 오류");
+		}
 	}
 
 	private JsonObject createDocumentData(FirestoreDocumentRequest request) {
@@ -53,7 +57,7 @@ public class FirestoreDocumentAdder {
 		fields.add("type", type);
 
 		JsonObject chatRoomId = new JsonObject();
-		chatRoomId.add("nullValue", request.getChatRoomId());
+		chatRoomId.addProperty("integerValue", request.getChatRoomId());
 		fields.add("chatRoomId", chatRoomId);
 
 		JsonObject documentData = new JsonObject();
@@ -72,7 +76,7 @@ public class FirestoreDocumentAdder {
 
 		HttpResponse response = client.execute(httpPost);
 		String responseString = EntityUtils.toString(response.getEntity());
-        log.debug("send firebaseResult: {}", responseString);
+		log.debug("send firebaseResult: {}", responseString);
 		client.close();
 	}
 }
