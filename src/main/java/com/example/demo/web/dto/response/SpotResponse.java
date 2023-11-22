@@ -13,4 +13,5 @@ public class SpotResponse {
 	private List<String> spots;
 	private Long managerId;
 	private boolean isCompleted;
+	private Long currentMemberId;
 }

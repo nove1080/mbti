@@ -18,7 +18,7 @@ public class ReadSpotService {
 	private final ChatRoomRepository chatRoomRepository;
 
 	@Transactional(readOnly = true)
-	public SpotResponse execute(Long chatroomId) {
+	public SpotResponse execute(Long chatroomId, Long memberId) {
 		ChatRoomEntity chatRoomEntity = chatRoomRepository.findById(chatroomId).get();
 
 		List<String> spots = new ArrayList<>();
@@ -28,6 +28,7 @@ public class ReadSpotService {
 				.spots(spots)
 				.managerId(chatRoomEntity.getManager().getId())
 				.isCompleted(chatRoomEntity.getIsComplete())
+				.currentMemberId(memberId)
 				.build();
 	}
 }

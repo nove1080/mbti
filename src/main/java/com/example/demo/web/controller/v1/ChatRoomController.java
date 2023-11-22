@@ -86,8 +86,9 @@ public class ChatRoomController {
 
 	@GetMapping("/{chatroomId}/recommendation")
 	public ApiResponse<ApiResponse.SuccessBody<SpotResponse>> getRecommendedSpot(
-			@PathVariable Long chatroomId) {
-		SpotResponse res = readSpotService.execute(chatroomId);
+			@PathVariable Long chatroomId, HttpServletRequest request) {
+		Long memberId = findMemberByToken(request);
+		SpotResponse res = readSpotService.execute(chatroomId,memberId);
 		return ApiResponseGenerator.success(res, HttpStatus.OK);
 	}
 
