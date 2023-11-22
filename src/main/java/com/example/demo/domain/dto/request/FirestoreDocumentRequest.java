@@ -1,6 +1,5 @@
 package com.example.demo.domain.dto.request;
 
-import com.google.gson.JsonElement;
 import java.time.Instant;
 import lombok.*;
 
@@ -16,7 +15,7 @@ public class FirestoreDocumentRequest {
 	private String userId;
 	private String time;
 	private String type;
-	private JsonElement chatRoomId;
+	private Long chatRoomId;
 
 	public FirestoreDocumentRequest(Builder builder) {
 		this.message = builder.message;
@@ -34,7 +33,7 @@ public class FirestoreDocumentRequest {
 		private String username;
 		private String userId;
 		private String type;
-		private JsonElement chatRoomId;
+		private Long chatRoomId;
 		private Number createdAt = System.currentTimeMillis();
 		private String time = Instant.now().toString();
 
@@ -58,7 +57,7 @@ public class FirestoreDocumentRequest {
 			return this;
 		}
 
-		public Builder chatRoomId(JsonElement chatRoomId) {
+		public Builder chatRoomId(Long chatRoomId) {
 			this.chatRoomId = chatRoomId;
 			return this;
 		}

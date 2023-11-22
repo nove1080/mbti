@@ -16,7 +16,7 @@ class FirestoreDocumentAdderTest {
 				new FirestoreDocumentRequest.Builder()
 						.userId("test_user_id")
 						.username("test_user")
-						.chatRoomId(null)
+						.chatRoomId(1L)
 						.message("message for test")
 						.type("type")
 						.build();
