@@ -114,10 +114,10 @@ public class VoteDestinationService {
 			FirestoreDocumentAdder adder = new FirestoreDocumentAdder();
 			FirestoreDocumentRequest firestoreDocumentRequest =
 					new FirestoreDocumentRequest.Builder()
-							.userId("test_user_id")
-							.username("test_user")
-							.chatRoomId(1L)
-							.message("message for test")
+							.userId("CHATGPT")
+							.username("CHATGPT")
+							.chatRoomId(request.getChatRoomId())
+							.message(promptMessage)
 							.type("type")
 							.build();
 			adder.send(firestoreDocumentRequest);

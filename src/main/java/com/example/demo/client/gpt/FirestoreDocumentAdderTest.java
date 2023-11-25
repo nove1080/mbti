@@ -17,9 +17,10 @@ class FirestoreDocumentAdderTest {
 						.userId("test_user_id")
 						.username("test_user")
 						.chatRoomId(2L)
-						.message("message for test")
+						.message("테스트")
 						.type("type")
 						.build();
 		adder.send(request);
+
 	}
 }

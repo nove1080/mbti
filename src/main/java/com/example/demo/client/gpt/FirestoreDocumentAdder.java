@@ -6,6 +6,7 @@ import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -69,9 +70,10 @@ public class FirestoreDocumentAdder {
 	private void addDocumentToFirestore(String url, JsonObject documentData) throws IOException {
 		CloseableHttpClient client = HttpClients.createDefault();
 		HttpPost httpPost = new HttpPost(url);
-		httpPost.setHeader("Content-type", "application/json");
+//		httpPost.setHeader("Content-type", "application/json charset=utf-8");
+//		httpPost.setHeader("Charset", "utf-8");
 
-		StringEntity requestEntity = new StringEntity(documentData.toString());
+		StringEntity requestEntity = new StringEntity(documentData.toString(), ContentType.APPLICATION_JSON);
 		httpPost.setEntity(requestEntity);
 
 		HttpResponse response = client.execute(httpPost);
