@@ -16,7 +16,7 @@ public class FirestoreDocumentAdder {
 
 	public void send(FirestoreDocumentRequest request) {
 		String url =
-				"https://firestore.googleapis.com/v1/projects/nwitter-reloaded-683ef/databases/(default)/documents/messages";
+				"https://firestore.googleapis.com/v1/projects/nwitter-reloaded-608b3/databases/(default)/documents/messages";
 
 		// 문서 데이터 생성
 		JsonObject documentData = createDocumentData(request);

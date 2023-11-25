@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 public class FirebaseClient {
 
 	private final String URL =
-			"https://firestore.googleapis.com/v1/projects/nwitter-reloaded-608b3/databases/(default)/documents/messages";
+			"https://firestore.googleapis.com/v1/projects/nwitter-reloaded-683ef/databases/(default)/documents/messages";
 
 	private final Gson gson = new Gson();
 
