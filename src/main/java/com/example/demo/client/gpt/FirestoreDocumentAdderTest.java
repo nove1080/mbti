@@ -21,6 +21,5 @@ class FirestoreDocumentAdderTest {
 						.type("type")
 						.build();
 		adder.send(request);
-
 	}
 }
