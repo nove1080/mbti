@@ -105,6 +105,7 @@ public class ChatRoomController {
 
 	private void saveRecommendSpot(CreateChatSurveyResultRequest requestData, Long chatRoomId) {
 		String gptResult = getRecommendedSpotBasedSurveyResult(requestData, chatRoomId);
+		log.info("gptResult : {}", gptResult);
 		String[] items = gptResult.split(",");
 		for (String item : items) {
 			createSpotService.execute(item, chatRoomId);

@@ -5,9 +5,11 @@ import com.example.demo.repository.entity.SpotEntity;
 import com.example.demo.repository.repository.ChatRoomRepository;
 import com.example.demo.repository.repository.SpotRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CreateSpotService {
@@ -17,6 +19,8 @@ public class CreateSpotService {
 
 	@Transactional
 	public Long execute(String spot, Long chatroomId) {
+
+		log.info("spot : {}", spot);
 		return spotRepository
 				.save(SpotEntity.builder().spot(spot).chatRoom(getChatRoom(chatroomId)).build())
 				.getId();
