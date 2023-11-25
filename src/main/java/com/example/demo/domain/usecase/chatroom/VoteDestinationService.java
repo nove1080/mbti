@@ -45,6 +45,8 @@ public class VoteDestinationService {
 	private final AiResponse ai = new GptAiResponse();
 	private final SummaryResponse summaryResponse = new NaverSummaryResponse();
 
+	private final FirestoreDocumentAdder adder = new FirestoreDocumentAdder();
+
 	@Transactional
 	public void execute(VoteDestinationDomainRequest request) {
 		if (!AllBallotPapers.containsKey(request.getChatRoomId())) {
@@ -81,6 +83,17 @@ public class VoteDestinationService {
 				chatRoom.changeComplete();
 				chatRoomRepository.save(chatRoom);
 
+				// FirebaseClient로 전송
+				FirestoreDocumentRequest firestoreDocumentRequest =
+						new FirestoreDocumentRequest.Builder()
+								.userId("CHATGPT")
+								.username("CHATGPT")
+								.chatRoomId(request.getChatRoomId())
+								.message("최적의 여행지를 결정했습니다. 방장은 제출하기를 눌러 History로 여행 내역을 제출해주세요")
+								.type("type")
+								.build();
+				adder.send(firestoreDocumentRequest);
+
 				votePaper.reset();
 				return;
 			}
@@ -111,7 +124,6 @@ public class VoteDestinationService {
 			String promptMessage = messageAfterGptChange(String.join(",", splitGptResponse));
 
 			// FirebaseClient로 전송
-			FirestoreDocumentAdder adder = new FirestoreDocumentAdder();
 			FirestoreDocumentRequest firestoreDocumentRequest =
 					new FirestoreDocumentRequest.Builder()
 							.userId("CHATGPT")
