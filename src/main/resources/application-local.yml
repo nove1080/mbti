@@ -5,3 +5,7 @@ spring:
     include:
       - flyway-local
       - mysql-local
+      - security-local
+logging:
+  level:
+    root: info
